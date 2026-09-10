@@ -1,0 +1,106 @@
+﻿@model _10mm.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión - 10mm";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Card con fondo totalmente blanco y sombra suave muy premium -->
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden bg-white">
+
+                <!-- PARTE SUPERIOR REDISEÑADA (MINIMALISTA Y LIMPIA) -->
+                <div class="card-header bg-white text-center pt-5 pb-3 border-0 position-relative">
+
+                    <!-- Línea de acento estética superior (Toque deportivo/taller) -->
+                    <div class="position-absolute top-0 start-0 w-100" style="height: 4px; background: #ffc107;"></div>
+
+                    <!-- Icono discreto y Marca -->
+                    <div class="d-flex align-items-center justify-content-center mb-1">
+                        <span class="fs-3 me-2 text-dark">⚙️</span>
+                        <h1 class="fw-black mb-0 text-dark" style="font-family: 'Segoe UI', Roboto, sans-serif; font-weight: 800; letter-spacing: -1px; font-size: 2.2rem;">
+                            10<span style="color: #ffc107;">mm</span>
+                        </h1>
+                    </div>
+
+                    <!-- Subtítulo sutil -->
+                    <p class="text-uppercase small fw-bold mb-3" style="color: #6c757d; letter-spacing: 1.5px; font-size: 0.7rem;">
+                        Gestión Automotriz
+                    </p>
+
+                    <!-- Título de acción limpio -->
+                    <h2 class="h5 fw-bold text-dark mt-2 mb-0" style="font-family: 'Segoe UI', sans-serif;">
+                        Iniciar Sesión
+                    </h2>
+                </div>
+
+                <!-- CUERPO DEL FORMULARIO -->
+                <div class="card-body px-4 px-sm-5 pb-5 pt-2">
+
+                    <form asp-action="Login" method="post" autocomplete="off">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Alertas de errores de credenciales -->
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger small p-2 rounded-3" role="alert"></div>
+
+                        <!-- Campo: Correo -->
+                        <div class="mb-3">
+                            <label asp-for="Correo" class="form-label fw-semibold text-secondary small">Correo Electrónico</label>
+                            <input asp-for="Correo" type="email" class="form-control form-control-lg border-2 bg-light bg-opacity-50" placeholder="ejemplo@correo.com" autofocus style="border-radius: 10px; font-size: 0.95rem;" />
+                            <span asp-validation-for="Correo" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Campo: Contraseña -->
+                        <div class="mb-4">
+                            <label asp-for="Password" class="form-label fw-semibold text-secondary small">Contraseña</label>
+                            <input asp-for="Password" type="password" class="form-control form-control-lg border-2 bg-light bg-opacity-50" placeholder="Introduce tu contraseña" style="border-radius: 10px; font-size: 0.95rem;" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Recordarme -->
+                        <div class="mb-4 form-check d-flex align-items-center">
+                            <input asp-for="Recordarme" type="checkbox" class="form-check-input border-2 me-2" style="cursor: pointer; width: 1.1em; height: 1.1em;" />
+                            <label asp-for="Recordarme" class="form-check-label text-secondary small" style="cursor: pointer;">Recordar mi sesión</label>
+                        </div>
+
+                        <!-- Botón de entrar -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-dark btn-lg fw-bold shadow-sm py-3 text-uppercase tracking-wider backend-btn"
+                                    style="background-color: #1a1a1a; border: none; border-radius: 10px; font-size: 0.9rem; transition: all 0.2s ease;">
+                                CONTINUAR →
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Enlace de registro -->
+                    <div class="text-center mt-4">
+                        <a asp-action="Registrar" class="text-decoration-none small fw-semibold text-muted">
+                            ¿No tienes cuenta? <span class="text-dark text-decoration-underline">Regístrate aquí</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <!-- Animación sutil para el botón -->
+    <style>
+        .backend-btn:hover {
+            background-color: #ffc107 !important;
+            color: #1a1a1a !important;
+            transform: translateY(-1px);
+        }
+        /* Estilizado fino para los bordes de los inputs al hacer focus */
+        .form-control:focus {
+            border-color: #ffc107 !important;
+            box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.15) !important;
+            background-color: #fff !important;
+        }
+    </style>
+}

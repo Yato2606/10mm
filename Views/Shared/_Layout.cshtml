@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - _10mm</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/_10mm.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="~/images/favicon.png" />
+</head>
+<body>
+    <!-- Estilos personalizados para efectos de luz y sombra en la Navbar -->
+    <style>
+            /* Efecto de 'Glow' sutil y profundidad en la barra principal */
+            .navbar-premium {
+                background: linear-gradient(145deg, #2a2e33, #1a1c20) !important; /* Degradado oscuro para relieve */
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), /* Sombra de profundidad */
+                0 1px 0 rgba(255, 255, 255, 0.05) inset; /* Línea de luz sutil en el borde superior */
+                border-bottom: 1px solid #333 !important;
+                transition: all 0.3s ease;
+            }
+
+            /* Estilo para el Logo */
+            .navbar-brand-premium {
+                font-weight: 800;
+                letter-spacing: -1px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra en el texto */
+            }
+
+            .logo-container {
+                position: relative;
+                display: inline-block;
+            }
+
+            /* Efecto de luz detrás del logo al pasar el mouse */
+            .navbar-brand-premium:hover .logo-icon {
+                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+                transform: scale(1.05);
+            }
+
+            .logo-icon {
+                transition: all 0.3s ease;
+            }
+
+            /* Estilo para los enlaces con efecto de iluminación al pasar el mouse */
+            .nav-link-premium {
+                color: rgba(255, 255, 255, 0.8) !important;
+                font-weight: 500;
+                position: relative;
+                transition: color 0.3s ease;
+            }
+
+                .nav-link-premium:hover {
+                    color: #fff !important;
+                    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Efecto de luz al hover */
+                }
+
+                /* Línea de luz animada debajo del enlace activo */
+                .nav-link-premium::after {
+                    content: '';
+                    position: absolute;
+                    width: 0;
+                    height: 2px;
+                    bottom: 0;
+                    left: 0;
+                    background-color: #fff;
+                    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+                    transition: width 0.3s ease;
+                }
+
+                .nav-link-premium:hover::after {
+                    width: 100%;
+                }
+    </style>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <!-- Logo Principal -->
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    ⚙️ 10<span style="color: #ffc107;">mm</span>
+                </a>
+                <button class="navbar-brand-toggler navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <!-- OPCIONES VISIBLES SOLO PARA USUARIOS LOGUEADOS -->
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                            </li>
+
+                            @if (User.IsInRole("Administrador"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white-50" href="#">🛠️ Panel Admin</a>
+                                </li>
+                            }
+
+                            @if (User.IsInRole("Mecanico") || User.IsInRole("Administrador"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white-50" href="#">🚗 Órdenes de Trabajo</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <!-- SECCIÓN DERECHA: PERFIL / LOGIN -->
+                    <ul class="navbar-nav ml-auto align-items-center">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <!-- Si ya inició sesión: Muestra Nombre, Rol y Cerrar Sesión -->
+                            <li class="nav-item me-3 text-white small">
+                                <span class="text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem; letter-spacing: 1px; color: #ffc107 !important;">
+                                    @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
+                                </span>
+                                <span class="fw-semibold">👋 Hola, @User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-light btn-sm fw-bold border-2 px-3 text-uppercase tracking-wider rounded-3 logout-btn"
+                                   asp-controller="Usuarios" asp-action="Logout" style="font-size: 0.75rem; transition: all 0.2s;">
+                                    ❌ Salir
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- Si NO ha iniciado sesión: Solo muestra invitación de acceso -->
+                            <li class="nav-item">
+                                <a class="btn btn-warning btn-sm fw-bold px-3 text-uppercase tracking-wider rounded-3 text-dark"
+                                   asp-controller="Usuarios" asp-action="Login" style="font-size: 0.75rem; background-color: #ffc107; border: none;">
+                                    🔑 Iniciar Sesión
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Añade este bloque de estilos al final de tu archivo o dentro de tus etiquetas <style> existentes -->
+        <style>
+                    .logout-btn:hover {
+                        background-color: #dc3545 !important;
+                        border-color: #dc3545 !important;
+                        color: white !important;
+                    }
+        </style>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - _10mm - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

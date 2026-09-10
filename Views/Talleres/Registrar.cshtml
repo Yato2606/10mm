@@ -1,0 +1,104 @@
+﻿@model _10mm.Models.Taller
+
+@{
+    ViewData["Title"] = "Registrar Taller";
+}
+
+<!-- Estilos personalizados rápidos para darle el toque premium -->
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+    .card-custom {
+        border: none;
+        border-radius: 16px;
+        transition: all 0.3s ease;
+    }
+    .form-control-custom {
+        border-radius: 8px;
+        padding: 12px 16px;
+        border: 1px solid #ced4da;
+    }
+    .form-control-custom:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+    .btn-custom-primary {
+        background: #4e73df;
+        border: none;
+        border-radius: 8px;
+        padding: 12px;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+    .btn-custom-primary:hover {
+        background: #2e59d9;
+        transform: translateY(-1px);
+    }
+    .btn-custom-secondary {
+        border-radius: 8px;
+        padding: 12px;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <!-- Tarjeta con bordes redondeados y sombra suave -->
+            <div class="card card-custom shadow-lg bg-white">
+
+                <div class="card-body p-4 p-md-5">
+                    <!-- Encabezado minimalista -->
+                    <div class="text-center mb-4">
+                        <div class="d-inline-block bg-light text-primary rounded-circle p-3 mb-3">
+                            <!-- Un ícono hecho con puros caracteres/Bootstrap para no meter librerías extra -->
+                            <span style="font-size: 2rem;">🛠️</span>
+                        </div>
+                        <h2 class="fw-bold text-dark">Nuevo Taller</h2>
+                        <p class="text-muted small">Ingresa los datos para registrar el taller en el sistema</p>
+                    </div>
+
+                    <form asp-action="Registrar" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Campo: Nombre -->
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label fw-semibold text-secondary small">Nombre del Taller</label>
+                            <input asp-for="Nombre" class="form-control form-control-custom" placeholder="Ej. Taller Mecánico 10mm" />
+                            <span asp-validation-for="Nombre" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Campo: Dirección -->
+                        <div class="mb-3">
+                            <label asp-for="Direccion" class="form-label fw-semibold text-secondary small">Dirección</label>
+                            <input asp-for="Direccion" class="form-control form-control-custom" placeholder="Ej. Av. Principal #123" />
+                            <span asp-validation-for="Direccion" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Campo: Teléfono -->
+                        <div class="mb-4">
+                            <label asp-for="Telefono" class="form-label fw-semibold text-secondary small">Teléfono de Contacto</label>
+                            <input asp-for="Telefono" class="form-control form-control-custom" placeholder="Ej. 6641234567" />
+                            <span asp-validation-for="Telefono" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-custom-primary shadow-sm">
+                                Guardar Registro
+                            </button>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-light btn-custom-secondary border text-muted">
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
